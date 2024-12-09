@@ -14,7 +14,7 @@ RUN apt-get install -y mesa-utils git autoconf libtool python pkg-config libxext
 RUN apt-get update && apt-get install -y --no-install-recommends \
     vim git wget tar xz-utils udev \
     build-essential cmake g++ net-tools \
-    python3-pip
+    python3-pip htop x11-apps
 #python3-pip python3-osrf-pycommon python3-catkin-tools
     
 RUN service udev restart
