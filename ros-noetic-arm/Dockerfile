@@ -13,7 +13,7 @@ RUN apt-get install -y mesa-utils git autoconf libtool pkg-config libxext-dev li
 RUN apt-get update && apt-get install -y --no-install-recommends \
     vim git wget tar xz-utils udev \
     build-essential cmake g++ net-tools \
-    python3-pip htop x11-apps
+    python3-pip htop x11-apps ros-noetic-rviz
 #python3-pip python3-osrf-pycommon python3-catkin-tools
     
 RUN service udev restart
@@ -48,7 +48,7 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-realtime-tools libpcap0.8-dev \
     ros-${ROS_DISTRO}-control-toolbox \
     ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-rosserial \
-    kmod can-utils iproute2 gcc-multilib libelf-dev libpopt-dev libmuparser-dev \
+    kmod can-utils iproute2 gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf libelf-dev libpopt-dev libmuparser-dev \
     ros-${ROS_DISTRO}-can* ros-${ROS_DISTRO}-joy \
     ros-${ROS_DISTRO}-teleop-twist-joy ros-${ROS_DISTRO}-teleop-twist-keyboard \
     xboxdrv ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-serial \
