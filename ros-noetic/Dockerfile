@@ -8,13 +8,14 @@ WORKDIR /root
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # ----------------------------------------------------------------------------------------------
-RUN apt-get update
-RUN apt-get install -y mesa-utils git autoconf libtool python pkg-config libxext-dev libx11-dev x11proto-gl-dev
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    vim git wget tar xz-utils udev \
-    build-essential cmake g++ net-tools \
-    python3-pip htop x11-apps
+    sudo vim git wget curl tar unzip tree xz-utils udev xclip tmux \
+    build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
+    mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev x11proto-gl-dev \
+    python3-pip python3-venv \
+    htop nvtop ctags x11-apps libspdlog-dev \
+    lsb-release gnupg2 software-properties-common \
+    npm
 #python3-pip python3-osrf-pycommon python3-catkin-tools
     
 RUN service udev restart
@@ -23,9 +24,7 @@ RUN python3 -m pip install --upgrade pip
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="noetic"
 
-RUN apt-get update && apt-get install -y \
-    lsb-release gnupg2 && \
-    sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
     apt-get update && apt-get install -y ros-noetic-desktop
 
@@ -42,17 +41,6 @@ RUN rosdep init && rosdep update
 RUN git clone https://github.com/NVIDIA/libglvnd /root/libglvnd
 WORKDIR /root/libglvnd
 RUN /root/libglvnd/autogen.sh && /root/libglvnd/configure && make -j && make install
-
-# ----------------------------------------------------------------------------------------------
-#RUN apt-get update
-#RUN apt-get install -y mesa-utils git autoconf libtool python pkg-config libxext-dev libx11-dev x11proto-gl-dev
-#
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    vim git wget tar xz-utils udev \
-    build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
-    python3-pip
-
-# RUN service udev restart
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="noetic"
 RUN apt-get update && apt-get install -y \
@@ -73,10 +61,12 @@ RUN apt-get update && apt-get install -y \
     xboxdrv ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-serial \
     ros-${ROS_DISTRO}-usb-cam guvcview v4l-utils
 # ----------------------------------------------------------------------------------------------
-WORKDIR /root
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:borglab/gtsam-release-4.0
-RUN apt-get install -y libgtsam-dev libgtsam-unstable-dev
+RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
+    cd gtsam && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && cmake --build . -j6 && \
+    sudo cmake --install .
 # ----------------------------------------------------------------------------------------------
 # CAN dependency
 RUN python3 -m pip install cantools pyyaml bitstring numpy
@@ -104,9 +94,6 @@ RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages black
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages flask pgm-reader
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pyyaml
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pyserial
-# ----------------------------------------------------------------------------------------------
-# spdlog 패키지 설치
-RUN apt-get install -y --no-install-recommends libspdlog-dev
 # ----------------------------------------------------------------------------------------------
 # APT 패키지 리스트 삭제(이미지 크기를 줄이기 위함)
 #RUN apt-get clean && sudo rm -rf /var/lib/apt/lists/*
