@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
     mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev x11proto-gl-dev \
     python3-pip python3-venv \
-    htop nvtop ctags x11-apps libspdlog-dev \
+    htop nvtop universal-ctags x11-apps libspdlog-dev ripgrep \
     lsb-release gnupg2 software-properties-common \
     npm
 #python3-pip python3-osrf-pycommon python3-catkin-tools
