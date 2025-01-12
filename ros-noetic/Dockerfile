@@ -1,5 +1,5 @@
-FROM ubuntu:focal
-#FROM osrf/ros:noetic-desktop
+#FROM ubuntu:focal
+FROM osrf/ros:noetic-desktop
 LABEL authors="chlee-rdv"
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
@@ -24,19 +24,19 @@ RUN python3 -m pip install --upgrade pip
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="noetic"
 
-RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-    apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
-    apt-get update && apt-get install -y ros-noetic-desktop
-
-RUN /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash"
-ENV CMAKE_PREFIX_PATH=/opt/ros/noetic:/usr/local:/usr
-ENV PYTHONPATH=/usr/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
-
-RUN apt-get install -y \
-    python3-rosdep python3-rosinstall python3-rosinstall-generator \
-    python3-wstool build-essential python3-catkin-tools python3-osrf-pycommon
-
-RUN rosdep init && rosdep update
+# RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
+#     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
+#     apt-get update && apt-get install -y ros-noetic-desktop
+# 
+# RUN /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash"
+# ENV CMAKE_PREFIX_PATH=/opt/ros/noetic:/usr/local:/usr
+# ENV PYTHONPATH=/usr/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
+# 
+# RUN apt-get install -y \
+#     python3-rosdep python3-rosinstall python3-rosinstall-generator \
+#     python3-wstool build-essential python3-catkin-tools python3-osrf-pycommon
+# 
+# RUN rosdep init && rosdep update
 # ----------------------------------------------------------------------------------------------
 RUN git clone https://github.com/NVIDIA/libglvnd /root/libglvnd
 WORKDIR /root/libglvnd
