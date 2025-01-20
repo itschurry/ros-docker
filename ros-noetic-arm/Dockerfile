@@ -1,4 +1,4 @@
-FROM arm64v8/ros:noetic-robot
+FROM ros:noetic-robot
 LABEL authors="chlee-rdv"
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
@@ -23,17 +23,11 @@ RUN python3 -m pip install --upgrade pip
 RUN git clone https://github.com/NVIDIA/libglvnd /root/libglvnd
 WORKDIR /root/libglvnd
 RUN /root/libglvnd/autogen.sh && /root/libglvnd/configure && make -j && make install
-
 # ----------------------------------------------------------------------------------------------
-#RUN apt-get update
-#RUN apt-get install -y mesa-utils git autoconf libtool python pkg-config libxext-dev libx11-dev x11proto-gl-dev
-#
 RUN apt-get update && apt-get install -y --no-install-recommends \
     vim git wget tar xz-utils udev \
     build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
     python3-pip
-
-# RUN service udev restart
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="noetic"
 RUN apt-get update && apt-get install -y \
