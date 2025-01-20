@@ -1,5 +1,4 @@
-#FROM ubuntu:focal
-FROM osrf/ros:noetic-desktop
+FROM ros:noetic-perception-focal
 LABEL authors="chlee-rdv"
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
@@ -11,7 +10,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo vim git wget curl tar unzip tree xz-utils udev xclip tmux \
     build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
-    mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev x11proto-gl-dev \
+    mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev x11proto-gl-dev libglvnd-dev \
     python3-pip python3-venv \
     htop nvtop universal-ctags x11-apps libspdlog-dev ripgrep \
     lsb-release gnupg2 software-properties-common \
@@ -21,22 +20,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN service udev restart
 
 RUN python3 -m pip install --upgrade pip
-# ----------------------------------------------------------------------------------------------
-ARG ROS_DISTRO="noetic"
-
-# RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list' && \
-#     apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
-#     apt-get update && apt-get install -y ros-noetic-desktop
-# 
-# RUN /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash"
-# ENV CMAKE_PREFIX_PATH=/opt/ros/noetic:/usr/local:/usr
-# ENV PYTHONPATH=/usr/lib/python3/dist-packages:/opt/ros/noetic/lib/python3/dist-packages
-# 
-# RUN apt-get install -y \
-#     python3-rosdep python3-rosinstall python3-rosinstall-generator \
-#     python3-wstool build-essential python3-catkin-tools python3-osrf-pycommon
-# 
-# RUN rosdep init && rosdep update
 # ----------------------------------------------------------------------------------------------
 RUN git clone https://github.com/NVIDIA/libglvnd /root/libglvnd
 WORKDIR /root/libglvnd
@@ -55,11 +38,11 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-realtime-tools libpcap0.8-dev \
     ros-${ROS_DISTRO}-control-toolbox \
     ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-rosserial \
-    kmod can-utils iproute2 gcc-multilib libelf-dev libpopt-dev libmuparser-dev \
     ros-${ROS_DISTRO}-can* ros-${ROS_DISTRO}-joy \
     ros-${ROS_DISTRO}-teleop-twist-joy ros-${ROS_DISTRO}-teleop-twist-keyboard \
     xboxdrv ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-serial \
-    ros-${ROS_DISTRO}-usb-cam guvcview v4l-utils
+    ros-${ROS_DISTRO}-usb-cam guvcview v4l-utils \
+    kmod can-utils iproute2 gcc-multilib libelf-dev libpopt-dev libmuparser-dev python3-pcl
 # ----------------------------------------------------------------------------------------------
 RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
     cd gtsam && \
