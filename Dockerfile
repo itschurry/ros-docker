@@ -1,5 +1,5 @@
 # Base image
-FROM ros:noetic-perception-focal
+FROM ros:noetic-robot-focal
 
 # Maintainer
 LABEL maintainer="chlee-rdv"
@@ -27,13 +27,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python3 -m pip install --upgrade pip \
     && python3 -m pip install \
         cantools \
-        pyyaml \
         bitstring \
         numpy==1.20.3 \
         pillow==9.5.0 \
-        open3d==0.16.0 \
         python-can
 
+        # pyyaml \
+        # open3d==0.16.0 \
 # Set ROS distribution and install ROS packages
 ARG ROS_DISTRO="noetic"
 RUN apt-get update && apt-get install -y \
