@@ -1,9 +1,9 @@
 #!/bin/bash
 
-PROJECT_NAME="rdv"
+REPO_NAME="rdv"
+PROJECT_NAME="ros"
 
-REPO_NAME=ros
-TAG=noetic-desktop
+TAG="noetic"
 
-docker build -t $PROJECT_NAME/$REPO_NAME:$TAG -f ./Dockerfile .
+docker build -t $REPO_NAME/$PROJECT_NAME:$TAG -f ./Dockerfile .
 

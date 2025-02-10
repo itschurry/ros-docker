@@ -1,4 +1,4 @@
-FROM ros:noetic-perception-focal
+FROM ros:noetic-robot-focal
 LABEL authors="chlee-rdv"
 ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /root
@@ -30,6 +30,8 @@ RUN /root/libglvnd/autogen.sh && /root/libglvnd/configure && make -j && make ins
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="noetic"
 RUN apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-rviz ros-${ROS_DISTRO}-rqt ros-${ROS_DISTRO}-rqt-common-plugins \
+    ros-${ROS_DISTRO}-foxglove-bridge \
     ros-${ROS_DISTRO}-pcl-conversions ros-${ROS_DISTRO}-pcl-ros \
     ros-${ROS_DISTRO}-ros-numpy \
     ros-${ROS_DISTRO}-geometry2 \
