@@ -7,14 +7,17 @@ WORKDIR /root
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # ----------------------------------------------------------------------------------------------
+# Install common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo vim git wget curl tar unzip tree xz-utils udev xclip tmux \
     build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
-    mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev x11proto-gl-dev libglvnd-dev \
+    mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev libglvnd-dev \
     python3-pip python3-venv \
-    htop nvtop universal-ctags x11-apps libspdlog-dev ripgrep \
+    htop universal-ctags x11-apps libspdlog-dev ripgrep \
     lsb-release gnupg2 software-properties-common \
-    npm
+    python3-tk python3-catkin-tools apt-utils expect \
+    gettext libtool libtool-bin automake doxygen \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 #python3-pip python3-osrf-pycommon python3-catkin-tools
     
 RUN service udev restart
