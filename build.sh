@@ -1,9 +1,8 @@
 #!/bin/bash
 
-PROJECT_NAME="rdv"
+REPO_NAME="rdv"
+PROJECT_NAME="ros2"
+TAG="humble"
 
-REPO_NAME=ros2
-TAG=humble-desktop
-
-docker build -t $PROJECT_NAME/$REPO_NAME:$TAG -f ./Dockerfile .
+docker build -t $REPO_NAME/$PROJECT_NAME:$TAG -f ./Dockerfile .
 
