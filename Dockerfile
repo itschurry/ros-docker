@@ -1,7 +1,7 @@
 # Base image
 FROM ros:noetic-robot-focal
 
-# Maintainer
+LABEL authors="chlee-rdv"
 LABEL maintainer="chlee-rdv"
 
 # Set environment variables
