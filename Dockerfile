@@ -73,7 +73,7 @@ RUN python3 -m pip uninstall -y numpy==1.24.4
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages numpy==1.20.3
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pillow==9.5.0
 
-RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages open3d==0.13.0
+RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages open3d==0.14.1
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages python-can
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages cantools
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages grpcio
