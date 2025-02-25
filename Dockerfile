@@ -47,7 +47,7 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-teleop-twist-joy ros-${ROS_DISTRO}-teleop-twist-keyboard \
     xboxdrv ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-serial \
     ros-${ROS_DISTRO}-usb-cam guvcview v4l-utils \
-    kmod can-utils iproute2 gcc-multilib libelf-dev libpopt-dev libmuparser-dev python3-pcl
+    kmod can-utils iproute2 libelf-dev libpopt-dev libmuparser-dev python3-pcl
 # ----------------------------------------------------------------------------------------------
 RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
     cd gtsam && \
