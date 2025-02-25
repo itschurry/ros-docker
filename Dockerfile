@@ -82,6 +82,8 @@ RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages black
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages flask pgm-reader
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pyyaml
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pyserial
+
+RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages google-api-python-client
 # ----------------------------------------------------------------------------------------------
 # Final cleanup
 RUN apt-get purge -y python3-click && apt-get autoremove -y && apt-get clean
