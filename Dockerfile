@@ -83,5 +83,7 @@ RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages flask
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pyyaml
 RUN python3 -m pip install --target=/usr/local/lib/python3.8/dist-packages pyserial
 # ----------------------------------------------------------------------------------------------
-# APT 패키지 리스트 삭제(이미지 크기를 줄이기 위함)
-#RUN apt-get clean && sudo rm -rf /var/lib/apt/lists/*
+# Final cleanup
+RUN apt-get purge -y python3-click && apt-get autoremove -y && apt-get clean
+
+CMD ["/bin/bash"]
