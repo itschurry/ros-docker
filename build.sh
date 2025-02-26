@@ -2,7 +2,7 @@
 
 REPO_NAME="rdv"
 PROJECT_NAME="ros"
-TAG="noetic-arm"
+TAG=$(git branch --show-current)
 
 docker build -t $REPO_NAME/$PROJECT_NAME:$TAG -f ./Dockerfile .
 
