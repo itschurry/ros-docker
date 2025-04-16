@@ -9,7 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # Install common dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo vim git wget curl tar unzip tree xz-utils udev xclip tmux \
-    build-essential cmake g++ net-tools gdb iproute2 usbutils can-utils \
+    build-essential cmake g++ clangd net-tools gdb iproute2 usbutils can-utils \
     mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev libglvnd-dev \
     htop universal-ctags x11-apps libspdlog-dev ripgrep \
     lsb-release gnupg2 software-properties-common \
