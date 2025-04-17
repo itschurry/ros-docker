@@ -26,7 +26,7 @@ RUN python3 -m pip install --upgrade pip setuptools \
     && python3 -m pip install \
         cantools \
         bitstring \
-        numpy \
+        numpy==1.23.5 \
         pillow \
         python-can \
         ultralytics
