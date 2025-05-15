@@ -30,7 +30,8 @@ RUN python3 -m pip install --upgrade pip \
         bitstring \
         numpy==1.20.3 \
         pillow==9.5.0 \
-        python-can
+        python-can \
+        websocket-client
 
         # pyyaml \
         # open3d==0.16.0 \
@@ -41,6 +42,7 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-pcl-conversions ros-${ROS_DISTRO}-pcl-ros \
     ros-${ROS_DISTRO}-roslint \
     ros-${ROS_DISTRO}-foxglove-bridge \
+    ros-${ROS_DISTRO}-rosbridge-server \
     ros-${ROS_DISTRO}-ros-numpy ros-${ROS_DISTRO}-geometry2 \
     ros-${ROS_DISTRO}-tf2-sensor-msgs ros-${ROS_DISTRO}-move-base \
     ros-${ROS_DISTRO}-move-base-msgs ros-${ROS_DISTRO}-navigation \
