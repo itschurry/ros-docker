@@ -24,14 +24,16 @@ RUN service udev restart
 
 RUN python3 -m pip install --upgrade pip
 # ----------------------------------------------------------------------------------------------
-RUN git clone https://github.com/NVIDIA/libglvnd /root/libglvnd
-WORKDIR /root/libglvnd
-RUN /root/libglvnd/autogen.sh && /root/libglvnd/configure && make -j && make install
+# ros keyring 수정
+RUN rm -f /usr/share/keyrings/ros1-latest-archive-keyring.gpg /usr/share/keyrings/ros-archive-keyring.gpg /etc/apt/sources.list.d/ros1-latest.list
+RUN curl -sS https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros1-latest-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros1-latest-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros1-latest.list
+RUN apt-get update
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="noetic"
 RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-rviz ros-${ROS_DISTRO}-rqt ros-${ROS_DISTRO}-rqt-common-plugins \
-    ros-${ROS_DISTRO}-foxglove-bridge \
+    ros-${ROS_DISTRO}-foxglove-bridge ros-${ROS_DISTRO}-rosbridge-server \
     ros-${ROS_DISTRO}-pcl-conversions ros-${ROS_DISTRO}-pcl-ros \
     ros-${ROS_DISTRO}-ros-numpy \
     ros-${ROS_DISTRO}-geometry2 \
@@ -47,6 +49,7 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-teleop-twist-joy ros-${ROS_DISTRO}-teleop-twist-keyboard \
     xboxdrv ros-${ROS_DISTRO}-rosserial-arduino ros-${ROS_DISTRO}-serial \
     ros-${ROS_DISTRO}-usb-cam guvcview v4l-utils \
+    ros-${ROS_DISTRO}-ira-laser-tools \
     kmod can-utils iproute2 libelf-dev libpopt-dev libmuparser-dev python3-pcl
 # ----------------------------------------------------------------------------------------------
 RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
@@ -60,7 +63,7 @@ RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
 RUN python3 -m pip install cantools pyyaml bitstring numpy
 # ----------------------------------------------------------------------------------------------
 RUN apt-get purge -y python3-click
-RUN apt-get install -y python3-cffi
+RUN apt-get install -y python3-cffi python3-pcl
 # ----------------------------------------------------------------------------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-tk python3-catkin-tools \
