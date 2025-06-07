@@ -23,18 +23,24 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gettext libtool libtool-bin automake doxygen \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# ros keyring 수정
+RUN rm -f /usr/share/keyrings/ros1-latest-archive-keyring.gpg /usr/share/keyrings/ros-archive-keyring.gpg /etc/apt/sources.list.d/ros1-latest.list
+RUN curl -sS https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros1-latest-archive-keyring.gpg
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros1-latest-archive-keyring.gpg] http://packages.ros.org/ros/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" > /etc/apt/sources.list.d/ros1-latest.list
+RUN apt-get update
+
 # Upgrade pip and install Python dependencies
 RUN python3 -m pip install --upgrade pip \
     && python3 -m pip install \
-        cantools \
-        bitstring \
-        numpy==1.20.3 \
-        pillow==9.5.0 \
-        python-can \
-        websocket-client
+    cantools \
+    bitstring \
+    numpy==1.20.3 \
+    pillow==9.5.0 \
+    python-can \
+    websocket-client
+# pyyaml \
+# open3d==0.16.0 \
 
-        # pyyaml \
-        # open3d==0.16.0 \
 # Set ROS distribution and install ROS packages
 ARG ROS_DISTRO="noetic"
 RUN apt-get update && apt-get install -y \
@@ -53,8 +59,15 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-teleop-twist-joy ros-${ROS_DISTRO}-teleop-twist-keyboard \
     xboxdrv ros-${ROS_DISTRO}-serial ros-${ROS_DISTRO}-usb-cam \
     guvcview v4l-utils kmod can-utils iproute2 libelf-dev \
-    libpopt-dev libmuparser-dev python3-pcl \
+    libpopt-dev libmuparser-dev python3-pcl clangd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
+    cd gtsam && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && cmake --build . -j6 && \
+    sudo cmake --install .
 
 # Final cleanup
 RUN apt-get purge -y python3-click && apt-get autoremove -y && apt-get clean
