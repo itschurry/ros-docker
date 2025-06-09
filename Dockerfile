@@ -59,7 +59,7 @@ RUN apt-get update && apt-get install -y \
     xboxdrv ros-${ROS_DISTRO}-serial ros-${ROS_DISTRO}-usb-cam \
     ros-${ROS_DISTRO}-robot-localization \
     guvcview v4l-utils kmod can-utils iproute2 libelf-dev \
-    libpopt-dev libmuparser-dev python3-pcl clangd \
+    libpopt-dev libmuparser-dev python3-pcl python3-watchdog clangd \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
