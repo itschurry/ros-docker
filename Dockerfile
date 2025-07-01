@@ -68,7 +68,8 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-ros2-control \
     ros-${ROS_DISTRO}-urdf-launch \
     ros-${ROS_DISTRO}-xacro \
-    ros-${ROS_DISTRO}-robot-localization
+    ros-${ROS_DISTRO}-robot-localization \
+    ros-${ROS_DISTRO}-pointcloud-to-laserscan
 # ----------------------------------------------------------------------------------------------
 # [추가 ROS 2 도구]
 RUN apt-get update && apt-get install -y \
