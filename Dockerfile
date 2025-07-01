@@ -1,39 +1,50 @@
 FROM ros:humble-ros-core
 LABEL authors="chlee-rdv"
 LABEL maintainer="chlee-rdv"
-ARG DEBIAN_FRONTEND=noninteractive ENV TZ=Asia/Seoul
+ARG DEBIAN_FRONTEND=noninteractive 
+ENV TZ=Asia/Seoul
 WORKDIR /root
 # Set timezone
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # ----------------------------------------------------------------------------------------------
-# Install common dependencies
+# [기본 유틸리티]
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo vim git wget curl tar unzip tree xz-utils udev xclip tmux \
-    build-essential cmake g++ clangd net-tools gdb iproute2 usbutils can-utils \
-    mesa-utils autoconf libtool pkg-config libxext-dev libx11-dev libglvnd-dev \
-    htop universal-ctags x11-apps libspdlog-dev ripgrep \
+    htop universal-ctags ripgrep \
     lsb-release gnupg2 software-properties-common \
     python3-tk apt-utils expect \
-    gettext libtool libtool-bin automake doxygen
-
+    gettext
+# ----------------------------------------------------------------------------------------------
+# [개발 도구]
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-colcon-common-extensions python3-pip python3-venv python3-rosdep \
+    build-essential cmake g++ clang clangd clang-format pkg-config \
+    net-tools gdb iproute2 usbutils can-utils \
+    autoconf libtool libxext-dev libx11-dev libglvnd-dev \
+    automake doxygen guvcview v4l-utils kmod libelf-dev \
+    libpopt-dev libmuparser-dev
+# ----------------------------------------------------------------------------------------------
+# [X11/GUI 관련]
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    mesa-utils x11-apps libspdlog-dev
+# ----------------------------------------------------------------------------------------------
+# [Python/ROS 빌드 관련]
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3-colcon-common-extensions python3-pip python3-venv python3-rosdep  python3-pcl python3-watchdog \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
-# python3-catkin-tools
 # ----------------------------------------------------------------------------------------------
 # Upgrade pip and install Python dependencies
 RUN python3 -m pip install --upgrade pip setuptools \
     && python3 -m pip install \
-        cantools \
-        bitstring \
-        numpy==1.23.5 \
-        pillow \
-        python-can \
-        ultralytics
-        # numpy==1.20.3 \
-        # pillow==9.5.0 \
+    cantools \
+    bitstring \
+    numpy==1.23.5 \
+    pillow \
+    python-can \
+    websocket-client
+# ultralytics \
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="humble"
+# [ROS 2 패키지 및 센서/디바이스 관련]
 RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-ament-cmake \
     ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
@@ -57,12 +68,11 @@ RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-ros2-control \
     ros-${ROS_DISTRO}-urdf-launch \
     ros-${ROS_DISTRO}-xacro \
-    guvcview v4l-utils kmod can-utils iproute2 libelf-dev \
-    libpopt-dev libmuparser-dev python3-pcl
+    ros-${ROS_DISTRO}-robot-localization
 # ----------------------------------------------------------------------------------------------
-# Install additional ROS 2 tools
+# [추가 ROS 2 도구]
 RUN apt-get update && apt-get install -y \
-    ros-humble-foxglove-bridge
+    ros-${ROS_DISTRO}-foxglove-bridge ros-${ROS_DISTRO}-rosbridge-server
 # ----------------------------------------------------------------------------------------------
 # Final cleanup
 RUN apt-get purge -y python3-click && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
