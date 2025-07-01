@@ -1,11 +1,9 @@
-FROM ros:humble-ros-core
+FROM ros:jazzy-ros-base
 LABEL authors="chlee-rdv"
 LABEL maintainer="chlee-rdv"
 ARG DEBIAN_FRONTEND=noninteractive 
-ENV TZ=Asia/Seoul
+ARG ROS_DISTRO="jazzy"
 WORKDIR /root
-# Set timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 # ----------------------------------------------------------------------------------------------
 # [기본 유틸리티]
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -29,21 +27,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ----------------------------------------------------------------------------------------------
 # [Python/ROS 빌드 관련]
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3-colcon-common-extensions python3-pip python3-venv python3-rosdep  python3-pcl python3-watchdog \
+    python3-colcon-common-extensions python3-pip python3-venv python3-rosdep python3-watchdog \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 # ----------------------------------------------------------------------------------------------
 # Upgrade pip and install Python dependencies
-RUN python3 -m pip install --upgrade pip setuptools \
-    && python3 -m pip install \
+RUN python3 -m pip install \
     cantools \
     bitstring \
-    numpy==1.23.5 \
+    numpy \
     pillow \
     python-can \
-    websocket-client
+    websocket-client \
+    --break-system-packages
 # ultralytics \
 # ----------------------------------------------------------------------------------------------
-ARG ROS_DISTRO="humble"
 # [ROS 2 패키지 및 센서/디바이스 관련]
 RUN apt-get update && apt-get install -y \
     ros-${ROS_DISTRO}-ament-cmake \
