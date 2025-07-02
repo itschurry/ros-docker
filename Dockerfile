@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ----------------------------------------------------------------------------------------------
 # [개발 도구]
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential cmake g++ clang clangd clang-format pkg-config \
+    build-essential cmake g++ clang clangd clang-format clang-tidy pkg-config \
     net-tools gdb iproute2 usbutils can-utils \
     autoconf libtool libxext-dev libx11-dev libglvnd-dev \
     automake doxygen guvcview v4l-utils kmod libelf-dev \
