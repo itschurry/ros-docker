@@ -46,6 +46,7 @@ RUN python3 -m pip install --upgrade pip setuptools \
 ARG ROS_DISTRO="humble"
 # [ROS 2 패키지 및 센서/디바이스 관련]
 RUN apt-get update && apt-get install -y \
+    ros-${ROS_DISTRO}-ros2bag ros-${ROS_DISTRO}-rosbag2* \
     ros-${ROS_DISTRO}-ament-cmake \
     ros-${ROS_DISTRO}-rmw-cyclonedds-cpp \
     ros-${ROS_DISTRO}-diagnostic-updater \
