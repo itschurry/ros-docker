@@ -40,7 +40,8 @@ RUN python3 -m pip install --upgrade pip setuptools \
     numpy==1.23.5 \
     pillow \
     python-can \
-    websocket-client
+    websocket-client \
+    ros2-numpy
 # ultralytics \
 # ----------------------------------------------------------------------------------------------
 ARG ROS_DISTRO="humble"
