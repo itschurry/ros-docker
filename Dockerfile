@@ -1,7 +1,7 @@
 FROM ros:humble-ros-core
-LABEL authors="chlee-rdv"
-LABEL maintainer="chlee-rdv"
-ARG DEBIAN_FRONTEND=noninteractive 
+LABEL authors="lee-cheolhee"
+LABEL maintainer="lee-cheolhee"
+ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Seoul
 WORKDIR /root
 # Set timezone
@@ -37,7 +37,7 @@ RUN python3 -m pip install --upgrade pip setuptools \
     && python3 -m pip install \
     cantools \
     bitstring \
-    numpy==1.23.5 \
+    numpy==1.24.2 \
     pillow \
     python-can \
     websocket-client \
