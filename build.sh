@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_NAME="ghcr.io/rendezvue"
-PROJECT_NAME="ros_docker"
+REPO_NAME="ghcr.io/lee-cheolhee"
+PROJECT_NAME="ros-docker"
 TAG=$(git branch --show-current)
 
 docker buildx build --platform linux/amd64,linux/arm64 -t $REPO_NAME/$PROJECT_NAME:$TAG -f ./Dockerfile . --push

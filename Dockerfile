@@ -1,8 +1,8 @@
 # Base image
 FROM ros:noetic-robot
 
-LABEL authors="chlee-rdv"
-LABEL maintainer="chlee-rdv"
+LABEL authors="lee-cheolhee"
+LABEL maintainer="lee-cheolhee"
 
 # Set environment variables
 ARG DEBIAN_FRONTEND=noninteractive ENV TZ=Asia/Seoul
@@ -66,7 +66,7 @@ RUN git clone -b 4.2.0 https://github.com/borglab/gtsam.git && \
     cd gtsam && \
     mkdir build && \
     cd build && \
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && cmake --build . -j6 && \
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local .. && cmake --build . -j2 && \
     sudo cmake --install .
 
 # Final cleanup
