@@ -1,6 +1,10 @@
 FROM ros:jazzy-ros-base
+# ----------------------------------------------------------------------------------------------
+# CUDA runtime 설치
+FROM nvidia/cuda:12.8.1-runtime-ubuntu24.04
+
 LABEL authors="itschurry"
-LABEL maintainer="itschurry"
+LABEL maintainer="cheolhee75@icloud.com"
 ARG DEBIAN_FRONTEND=noninteractive 
 ARG ROS_DISTRO="jazzy"
 WORKDIR /root
@@ -75,8 +79,5 @@ RUN apt-get update && apt-get install -y \
 # ----------------------------------------------------------------------------------------------
 # Final cleanup
 RUN apt-get purge -y python3-click && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
-# ----------------------------------------------------------------------------------------------
-# CUDA runtime 설치
-FROM nvidia/cuda:12.8.1-runtime-ubuntu24.04
 
 CMD ["/bin/bash"]
