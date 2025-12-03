@@ -1,14 +1,14 @@
-FROM nvidia/cuda:12.8.1-devel-ubuntu24.04
+FROM nvidia/cuda:12.8.1-devel-ubuntu22.04
 
 LABEL authors="itschurry"
 LABEL maintainer="cheolhee75@icloud.com"
-LABEL description="Base image with Ubuntu 24.04, CUDA 12.8, ROS Jazzy, ZED SDK 5.1"
+LABEL description="Base image with Ubuntu 22.04, CUDA 12.8, ROS Humble, ZED SDK 5.1"
 
 # 환경 변수 설정 (대화형 설치 방지 및 로케일 설정)
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
-ENV ROS_DISTRO=jazzy
+ENV ROS_DISTRO=humble
 # ----------------------------------------------------------------------------------------------
 # [기본 유틸리티]
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -31,13 +31,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mesa-utils libgl1-mesa-dev libgomp1 x11-apps libspdlog-dev \
     && locale-gen en_US en_US.UTF-8 && apt-get clean && rm -rf /var/lib/apt/lists/*
 # ----------------------------------------------------------------------------------------------
-# 3. Install ROS 2 Jazzy Jalisco
+# 3. Install ROS 2 Humble Jalisco
 RUN apt-get update && apt-get install -y software-properties-common && \
     add-apt-repository universe && \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | tee /etc/apt/sources.list.d/ros2.list > /dev/null && \
     apt-get update && apt-get install -y --no-install-recommends \
-    ros-jazzy-desktop \
+    ros-humble-desktop \
     python3-colcon-common-extensions \
     python3-rosdep \
     && rm -rf /var/lib/apt/lists/*
@@ -57,8 +57,7 @@ RUN python3 -m pip install \
     numpy \
     pillow \
     python-can \
-    websocket-client \
-    --break-system-packages
+    websocket-client
 # ultralytics \
 # ----------------------------------------------------------------------------------------------
 # [ROS 2 패키지 및 센서/디바이스 관련]
@@ -107,7 +106,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ZED SDK 다운로드 및 설치 (Silent Mode)
 # 주의: ZED SDK 5.1.0의 정확한 링크는 Stereolabs 릴리즈 페이지에서 확인 필요. 
 # 아래는 일반적인 네이밍 규칙을 따른 예시 링크입니다.
-ARG ZED_SDK_URL="https://download.stereolabs.com/zedsdk/5.1.1/cu12/ubuntu24"
+ARG ZED_SDK_URL="https://download.stereolabs.com/zedsdk/5.1.1/cu12/ubuntu22"
 
 WORKDIR /tmp
 RUN wget -q --no-check-certificate -O ZED_SDK_Linux.run ${ZED_SDK_URL} && \
