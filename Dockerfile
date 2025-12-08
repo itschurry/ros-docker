@@ -102,7 +102,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libopenblas-dev \
     libpng-dev \
     libturbojpeg \
+    zstd \
+    lsb-release \
+    libqt5opengl5 \
+    libqt5xml5 \
+    libarchive-dev \
+    libqt5svg5 \
     && rm -rf /var/lib/apt/lists/*
+ 
 
 # ZED SDK 다운로드 및 설치 (Silent Mode)
 # 주의: ZED SDK 5.1.0의 정확한 링크는 Stereolabs 릴리즈 페이지에서 확인 필요. 
@@ -113,9 +120,12 @@ WORKDIR /tmp
 RUN wget -q --no-check-certificate -O ZED_SDK_Linux.run ${ZED_SDK_URL} && \
     chmod +x ZED_SDK_Linux.run && \
     # Silent install 옵션: 드라이버 제외, 툴 포함, CUDA 체크 무시
-    ./ZED_SDK_Linux.run -- silent skip_tools skip_cuda_check && \
+    ./ZED_SDK_Linux.run -- silent && \
     rm ZED_SDK_Linux.run && \
     rm -rf /var/lib/apt/lists/*
+
+ENV LD_LIBRARY_PATH=/usr/local/zed/lib:$LD_LIBRARY_PATH
+RUN chmod -R 755 /usr/local/zed
 # ----------------------------------------------------------------------------------------------
 # Final cleanup
 # RUN apt-get purge -y python3-click && apt-get autoremove -y && apt-get clean && rm -rf /var/lib/apt/lists/*
