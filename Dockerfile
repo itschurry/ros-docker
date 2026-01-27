@@ -1,6 +1,6 @@
 FROM ros:jazzy-ros-base
-LABEL authors="chlee-rdv"
-LABEL maintainer="chlee-rdv"
+LABEL authors="itschurry"
+LABEL maintainer="itschurry"
 ARG DEBIAN_FRONTEND=noninteractive 
 ARG ROS_DISTRO="jazzy"
 WORKDIR /root
