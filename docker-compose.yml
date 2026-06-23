@@ -1,0 +1,12 @@
+services:
+  ros-base:
+    image: ${ROS_IMAGE:?set ROS_IMAGE}:${ROS_IMAGE_TAG:?set ROS_IMAGE_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ROS_DISTRO: ${ROS_DISTRO:?set ROS_DISTRO}
+    platform: ${DOCKER_PLATFORM:?set DOCKER_PLATFORM}
+    stdin_open: true
+    tty: true
+    command: /bin/bash
